@@ -8,9 +8,8 @@
 //	'node', a node in the tree.
 // OUTPUT: the index of given value in the tree.
 int getIndex(int *bt, int node){
-    int i;
-    int length = sizeof(bt) / sizeof(a[0]);
-    for (i = 1; i < length; i++) {
+    int length = bt[0];
+    for (int i = 1; i <= length; i++) {
         //go to length because last char is null
         if (bt[i] == node) { return i; }
     }
@@ -25,11 +24,19 @@ void printParentNode (int *bt, int node){
 // handle exceptional cases. If the given node is the root node, that is, if node is 1, then there
 // is no parent. If the given node is not in the given tree, that is, if the given node index is too
 // large or non-positive, then an error message should be printed.
-    if (node <= 1 || getIndex(bt, node/2) == -1 {
+    int length = bt[0];
+    int nodeIndex = getIndex(bt, node);
+    int parentIndex = nodeIndex/2;
+
+    if (nodeIndex == 1) {
+        printf("%d is the root\n", node);
+    } else if (nodeIndex > length || nodeIndex < 1) {
+        printf("%d is not in the tree\n", node);
+    } else if (parentIndex == -1) {
         //no parent if root or too small, or if too large
-        printf("There is no parent! :( orphaned node");
+        printf("There is no parent! :( %d is an orphan node\n", node);
     } else {
-        printf("Parent node: %d", getIndex(bt, i));
+        printf("The parent node of %d is %d\n", node, bt[parentIndex]);
     }
 }
 
@@ -39,13 +46,17 @@ void printParentNode (int *bt, int node){
 void printLeftChildNode (int *bt, int node){
 // when the given node has no left child, or the given node is not
 // in the given tree, then an error message should be printed.
-
+    int length = bt[0];
+    int nodeIndex = getIndex(bt, node);
+    int leftChildIndex = nodeIndex * 2;
     //if node isn't in tree or left child is out of bounds
-    if (getIndex(bt, node) == -1 || getIndex(bt, node*2) == -1{
+    if (nodeIndex < 1) {
         //no parent if root or too small, or if too large
-        printf("The node doesn't exist, or they don't have a left child. :(");
+        printf("%d doesn't exist :(\n", node);
+    } else if (leftChildIndex > length) { 
+        printf("%d doesn't have a left child. :(\n", node);   
     } else {
-        printf("Left child: %d", getIndex(bt, node*2));
+        printf("The left child of %d is %d\n", node, bt[leftChildIndex]);
     }
 }
 
@@ -54,11 +65,17 @@ void printLeftChildNode (int *bt, int node){
 // OUPUT: print the right child of 'node' 
 void printRightChildNode (int *bt, int node){
     //if node isn't in tree or left child is out of bounds
-    if (getIndex(bt, node) == -1 || getIndex(bt, node*2 + 1) == -1{
+
+    int length = bt[0];
+    int nodeIndex = getIndex(bt, node);
+    int rightChildIndex = nodeIndex*2 + 1;
+    if (nodeIndex < 1) {
         //no parent if root or too small, or if too large
-        printf("The node doesn't exist, or they don't have a right child. :(");
+        printf("%d doesn't exist :(\n", node);
+    } else if (rightChildIndex > length) { 
+        printf("%d doesn't have a right child. :(\n", node);
     } else {
-        printf("Right child: %d", getIndex(bt, node*2 + 1));
+        printf("The right child of %d is %d\n", node, bt[rightChildIndex]);
     }
 }
 
@@ -70,28 +87,35 @@ void printNearestCommonAncestor(int *bt, int node1, int node2){
 //For two given nodes, this
 //function returns their nearest common ancestor in the tree. 
     //bad input check
-    if (getIndex(bt, node1) == -1 || getIndex(bt, node2) == -1) {
-        printf("One of these nodes isn't in the tree. :(");
-    }
-    int length = sizeof(bt) / sizeof(a[0]);
-    int ancestors[length];
-    int i = 0;
+    printf("Node %d, Node %d\n", node1, node2);
 
-    while (node1 >= 2) {
-        ancestors[i++] = node1;
-        node1 /= 2;
+    if (getIndex(bt, node1) == -1 || getIndex(bt, node2) == -1) {
+        printf("One of these nodes isn't in the tree. :(\n");
+    }
+    int nearestAncestor = 1; //root
+    int length = bt[0];
+    int ancestors[length];
+    int temp1 = node1; //fuck this is a pointer i think
+    int temp2 = node2;
+    
+    int i = 0;
+    while (temp1 >= 2) {
+        ancestors[i++] = temp1;
+        temp1 = temp1/2;
     }
     //ancestors is now filled with the index of the ancestors of node1, with 
     //remaining elements in ancestors being 0
-    while (node2 >= 2) {
-        for (int i = 0; i < length; i++) {
+    
+    while (temp2 >= 2) {
+        for (i = 0; i < length; i++) {
             if (ancestors[i] == 0) break;
-            if (node2 == ancestors[i]) {
-                printf("Nearest Common Ancestor: %d", getIndex(bt, node2));
+            if (temp2 == ancestors[i]) {
+                nearestAncestor = temp2;
             }
         }
-        node2 /= 2;
+        temp2 = temp2/2;
     }
+    printf("The nearest common ancestor of Node %d and Node %d is Node %d\n", bt[node1], bt[node2], bt[nearestAncestor]);
 }
 
 
