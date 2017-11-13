@@ -88,35 +88,25 @@ void printNearestCommonAncestor(int *bt, int node1, int node2){
 //function returns their nearest common ancestor in the tree. 
     //bad input check
 
-    if (getIndex(bt, node1) == -1 || getIndex(bt, node2) == -1) {
-        printf("One of these nodes isn't in the tree. :(\n");
-    }
-    int nearestAncestor = 1; //root
     int length = bt[0];
-    int ancestors[length];
-    int temp1 = node1; //fuck this is a pointer i think
-    int temp2 = node2;
-    
-    int i = 0;
-    while (temp1 >= 1) {
-        ancestors[i++] = temp1;
-        temp1 = temp1/2;
-    }
-    //ancestors is now filled with the index of the ancestors of node1, with 
-    //remaining elements in ancestors being 0
-    
-    while (temp2 >= 1) {
-        for (i = 0; i < length; i++) {
-            if (ancestors[i] == 0) break;
-            if (temp2 == ancestors[i]) {
-                nearestAncestor = temp2;
-                printf("The nearest common ancestor of Node %d and Node %d is Node %d\n", node1, node2, bt[nearestAncestor]);
-                return;
+    int temp1 = getIndex(bt, node1); 
+    int temp2 = getIndex(bt, node2);
+
+    if (temp1 == -1 || temp2 == -1) {
+        printf("One of these nodes isn't in the tree. :(\n");
+    } else {
+        //while loop to loop through the ancestors in the tree
+        while (temp1 != temp2) {
+            if (temp2 > temp1) {
+                //decrement temp2
+                temp2 = temp2 /2;
+            } else {
+                //decrement temp1
+                temp1 = temp1/2;
             }
         }
-        temp2 = temp2/2;
+        printf("The nearest common ancestor of Node %d and Node %d is Node %d\n", node1, node2, bt[temp1]);
     }
-    printf("The nearest common ancestor of Node %d and Node %d is Node %d\n", node1, node2, bt[nearestAncestor]);
 }
 
 
