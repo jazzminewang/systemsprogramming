@@ -87,7 +87,6 @@ void printNearestCommonAncestor(int *bt, int node1, int node2){
 //For two given nodes, this
 //function returns their nearest common ancestor in the tree. 
     //bad input check
-    printf("Node %d, Node %d\n", node1, node2);
 
     if (getIndex(bt, node1) == -1 || getIndex(bt, node2) == -1) {
         printf("One of these nodes isn't in the tree. :(\n");
@@ -99,23 +98,25 @@ void printNearestCommonAncestor(int *bt, int node1, int node2){
     int temp2 = node2;
     
     int i = 0;
-    while (temp1 >= 2) {
+    while (temp1 >= 1) {
         ancestors[i++] = temp1;
         temp1 = temp1/2;
     }
     //ancestors is now filled with the index of the ancestors of node1, with 
     //remaining elements in ancestors being 0
     
-    while (temp2 >= 2) {
+    while (temp2 >= 1) {
         for (i = 0; i < length; i++) {
             if (ancestors[i] == 0) break;
             if (temp2 == ancestors[i]) {
                 nearestAncestor = temp2;
+                printf("The nearest common ancestor of Node %d and Node %d is Node %d\n", node1, node2, bt[nearestAncestor]);
+                return;
             }
         }
         temp2 = temp2/2;
     }
-    printf("The nearest common ancestor of Node %d and Node %d is Node %d\n", bt[node1], bt[node2], bt[nearestAncestor]);
+    printf("The nearest common ancestor of Node %d and Node %d is Node %d\n", node1, node2, bt[nearestAncestor]);
 }
 
 
