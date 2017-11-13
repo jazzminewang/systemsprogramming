@@ -21,7 +21,7 @@ void printEdges(int N, int G[][N]) {
 }
 
 void isThereAPath(int N, int G[][N], int v1, int v2) {
-    //visited array
+    //visited array to implement breadth-first search
     int visited[N];
     //queue implementation
     int front = 0;

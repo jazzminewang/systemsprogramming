@@ -73,6 +73,7 @@ void printRightChildNode (int *bt, int node){
         //no parent if root or too small, or if too large
         printf("%d doesn't exist :(\n", node);
     } else if (rightChildIndex > length) { 
+        //if out of bounds
         printf("%d doesn't have a right child. :(\n", node);
     } else {
         printf("The right child of %d is %d\n", node, bt[rightChildIndex]);
